@@ -8,7 +8,7 @@ Widget currentWeather(IconData icon, String temp, String location){
       children: [
         Icon(
           icon,
-          color: Colors.orange,
+          color: Colors.blueGrey,
           size: 64.0
         ),
         SizedBox(
