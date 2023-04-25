@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:weather_app/services/weather_api_client.dart';
 import 'package:weather_app/views/additional_information.dart';
 import 'package:weather_app/views/current_weather.dart';
 
@@ -26,7 +27,13 @@ class HomePage extends StatefulWidget {
 }
 
 class _HomePageState extends State<HomePage> {
+  WeatherApiClient client = WeatherApiClient();
   @override
+  void initState(){
+    super.initState();
+    client.getCurrentWeather("Berlin");
+  }
+
   Widget build(BuildContext context) {
     //Creating the UI of the app
     return Scaffold(
