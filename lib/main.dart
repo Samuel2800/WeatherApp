@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:weather_app/model/weather_model.dart';
 import 'package:weather_app/services/weather_api_client.dart';
 import 'package:weather_app/views/additional_information.dart';
 import 'package:weather_app/views/current_weather.dart';
@@ -28,12 +29,13 @@ class HomePage extends StatefulWidget {
 
 class _HomePageState extends State<HomePage> {
   WeatherApiClient client = WeatherApiClient();
-  @override
-  void initState(){
-    super.initState();
-    client.getCurrentWeather("Berlin");
+  Weather? data;
+
+  Future<void> getData() async{
+  data = await client.getCurrentWeather("Berlin");
   }
 
+  @override
   Widget build(BuildContext context) {
     //Creating the UI of the app
     return Scaffold(
@@ -52,25 +54,34 @@ class _HomePageState extends State<HomePage> {
             color: Colors.black,
           ),
         ),
-        body: Column(crossAxisAlignment: CrossAxisAlignment.center, children: [
-          //custom widget
-          currentWeather(Icons.wb_cloudy_outlined, "15", "Berlin"),
-          const SizedBox(
-            height: 20.0,
-          ),
-          const Text(
-            "Additional Information",
-            style: TextStyle(
-                fontSize: 24.0,
-                color: Color(0xdd212121),
-                fontWeight: FontWeight.bold,)
-          ),
-          const Divider(),
-          const SizedBox(
-              height: 20.0,
-          ),
-          // Additional information about the weather
-          additionalInformation("15", "60%", "1000", "16")
-        ]));
+        body: FutureBuilder(
+          future: getData(),
+          builder: (context, snapshot){
+            if(snapshot.connectionState == ConnectionState.done){
+              return Column(crossAxisAlignment: CrossAxisAlignment.center, children: [
+                //custom widget
+                currentWeather(Icons.wb_cloudy_outlined, "${data!.temp}°", "${data!.cityName}"),
+                const SizedBox(
+                  height: 20.0,
+                ),
+                const Text(
+                    "Additional Information",
+                    style: TextStyle(
+                      fontSize: 24.0,
+                      color: Color(0xdd212121),
+                      fontWeight: FontWeight.bold,)
+                ),
+                const Divider(),
+                const SizedBox(
+                  height: 20.0,
+                ),
+                // Additional information about the weather
+                additionalInformation("15", "60%", "1000", "16")
+              ]);
+            }
+            return Container();
+          }
+        )
+    );
   }
 }
