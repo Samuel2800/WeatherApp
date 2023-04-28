@@ -60,7 +60,7 @@ class _HomePageState extends State<HomePage> {
             if(snapshot.connectionState == ConnectionState.done){
               return Column(crossAxisAlignment: CrossAxisAlignment.center, children: [
                 //custom widget
-                currentWeather(Icons.wb_cloudy_outlined, "${data!.temp}°", "${data!.cityName}"),
+                currentWeather(Icons.wb_cloudy_outlined, "${data!.temp!.round()}°", "${data!.cityName}"),
                 const SizedBox(
                   height: 20.0,
                 ),
@@ -76,7 +76,7 @@ class _HomePageState extends State<HomePage> {
                   height: 20.0,
                 ),
                 // Additional information about the weather
-                additionalInformation("15", "60%", "1000", "16")
+                additionalInformation("${data!.wind}", "${data!.humidity}", "${data!.pressure}", "${data!.realFeel!.round()}")
               ]);
             }
             return Container();

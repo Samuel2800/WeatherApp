@@ -17,10 +17,10 @@ class Weather{
 
   Weather.fromJson(Map<String, dynamic> json){
     cityName = json["name"];
-    temp = json["main"]["temp"];
+    temp = (json["main"]["temp"] - 273.15);
     wind = json["wind"]["speed"];
     humidity = json["main"]["humidity"];
     pressure = json["main"]["pressure"];
-    realFeel = json["main"]["feels_like"];
+    realFeel = (json["main"]["feels_like"] - 273.15);
   }
 }
