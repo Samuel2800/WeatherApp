@@ -4,6 +4,8 @@ import 'package:weather_app/services/weather_api_client.dart';
 import 'package:weather_app/views/additional_information.dart';
 import 'package:weather_app/views/current_weather.dart';
 
+import 'delegates/custom_search_delegate.dart';
+
 void main() {
   runApp(const MyApp());
 }
@@ -31,6 +33,8 @@ class _HomePageState extends State<HomePage> {
   WeatherApiClient client = WeatherApiClient();
   Weather? data;
 
+  CustomSearchDelegate searchDelegate = CustomSearchDelegate();
+
   Future<void> getData() async{
   data = await client.getCurrentWeather("Berlin");
   }
@@ -46,14 +50,26 @@ class _HomePageState extends State<HomePage> {
           elevation: 0.0,
           title: const Text(
             "Weather App",
-            style: TextStyle(color: Colors.black),
+            style: TextStyle(color: Colors.deepPurple),
           ),
           centerTitle: true,
           leading: IconButton(
             onPressed: () {},
             icon: const Icon(Icons.menu),
-            color: Colors.black,
+            color: Colors.deepPurple,
           ),
+          actions: [
+            IconButton(
+              icon: const Icon(Icons.search),
+              color: Colors.deepPurple,
+              onPressed: () {
+                showSearch(
+                    context: context,
+                    delegate: searchDelegate,
+                );
+              },
+            )
+          ],
         ),
         body: Container(
           decoration: const BoxDecoration(
