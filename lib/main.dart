@@ -39,9 +39,10 @@ class _HomePageState extends State<HomePage> {
   Widget build(BuildContext context) {
     //Creating the UI of the app
     return Scaffold(
+      //extendBodyBehindAppBar: true,
         backgroundColor: Color(0xFFf9f9f9),
         appBar: AppBar(
-          backgroundColor: Color(0xFFf9f9f9),
+          backgroundColor: Color(0xE6000000),
           elevation: 0.0,
           title: const Text(
             "Weather App",
@@ -54,7 +55,14 @@ class _HomePageState extends State<HomePage> {
             color: Colors.black,
           ),
         ),
-        body: FutureBuilder(
+        body: Container(
+          decoration: const BoxDecoration(
+              image: DecorationImage(
+                image:AssetImage('assets/clouds.jpg'),
+                fit: BoxFit.cover,
+              )
+          ),
+        child: FutureBuilder(
           future: getData(),
           builder: (context, snapshot){
             if(snapshot.connectionState == ConnectionState.done){
@@ -76,12 +84,13 @@ class _HomePageState extends State<HomePage> {
                   height: 20.0,
                 ),
                 // Additional information about the weather
-                additionalInformation("${data!.wind}", "${data!.humidity}", "${data!.pressure}", "${data!.realFeel!.round()}")
+                additionalInformation("${data!.wind}", "${data!.humidity}", "${data!.pressure}", "${data!.realFeel!.round()}°")
               ]);
             }
             return Container();
           }
-        )
+        ),
+        ),
     );
   }
 }
