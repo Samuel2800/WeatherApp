@@ -54,6 +54,7 @@ class CustomSearchDelegate extends SearchDelegate{
     return [
       IconButton(
         icon: const Icon(Icons.clear),
+        color: Colors.deepPurple,
         onPressed:(){
           if(query.isEmpty){
             close(context, null);
@@ -70,6 +71,7 @@ class CustomSearchDelegate extends SearchDelegate{
   Widget? buildLeading(BuildContext context) {
     return IconButton(
       icon: const Icon(Icons.arrow_back),
+      color: Colors.deepPurple,
       onPressed:(){
         close(context, null);
       }
@@ -103,17 +105,42 @@ class CustomSearchDelegate extends SearchDelegate{
         matchQuery.add(city);
       }
     }
-    return ListView.builder(
-      itemCount: matchQuery.length,
-      itemBuilder: (context, index){
-        var result = matchQuery[index];
-        return ListTile(
-          title: Text(result),
-          onTap: (){
-            query = result;
-          },
-        );
-      }
+    return Container(
+      color: Colors.black,
+      child: ListView.builder(
+          itemCount: matchQuery.length,
+          itemBuilder: (context, index){
+            var result = matchQuery[index];
+            return ListTile(
+              title: Text(
+                  result,
+                style: TextStyle(color: Colors.grey),
+              ),
+              onTap: (){
+                query = result;
+              },
+            );
+          }
+      )
     );
+
   }
-}
+
+  @override
+  ThemeData appBarTheme(BuildContext context) {
+    assert(context != null);
+    final ThemeData theme = Theme.of(context);
+    final ColorScheme colorScheme = theme.colorScheme;
+    assert(theme != null);
+    return theme.copyWith(
+      appBarTheme: AppBarTheme(
+        backgroundColor: colorScheme.brightness == Brightness.dark ? Colors.grey[900] : Colors.black,
+        iconTheme: theme.primaryIconTheme.copyWith(color: Colors.grey),
+      ),
+      inputDecorationTheme: searchFieldDecorationTheme ??
+          const InputDecorationTheme(
+            hintStyle: TextStyle(color: Colors.grey),
+            border: InputBorder.none,
+          ),
+    );
+  }}

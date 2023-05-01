@@ -43,7 +43,7 @@ class _HomePageState extends State<HomePage> {
   Widget build(BuildContext context) {
     //Creating the UI of the app
     return Scaffold(
-      //extendBodyBehindAppBar: true,
+        extendBodyBehindAppBar: true,
         backgroundColor: Color(0xFFf9f9f9),
         appBar: AppBar(
           backgroundColor: Color(0xE6000000),
@@ -72,6 +72,7 @@ class _HomePageState extends State<HomePage> {
           ],
         ),
         body: Container(
+          padding:  EdgeInsets.fromLTRB(0, 120, 0, 33),
           decoration: const BoxDecoration(
               image: DecorationImage(
                 image:AssetImage('assets/clouds.jpg'),
