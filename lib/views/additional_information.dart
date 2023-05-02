@@ -6,6 +6,10 @@ TextStyle titleFont =
 TextStyle infoFont =
   const TextStyle(fontWeight: FontWeight.w400, fontSize: 18.0);
 
+//this widget was made to show the information about
+//wid speed, pressure, humidity and real feel
+//thi will get modified according to the fima design
+
 Widget additionalInformation(String wind, String humidity ,String pressure, String realFeel ){
 
 

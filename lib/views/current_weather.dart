@@ -1,5 +1,9 @@
 import 'package:flutter/material.dart';
 
+//this class shows the current weather information
+//will be modified with the proper containers once
+//the figma design is finished
+
 Widget currentWeather(IconData icon, String temp, String location){
   return Center(
     child: Column(

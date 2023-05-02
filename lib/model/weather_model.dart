@@ -15,6 +15,8 @@ class Weather{
     this.realFeel
   });
 
+  //this is a model to get specific information from the API
+
   Weather.fromJson(Map<String, dynamic> json){
     cityName = json["name"];
     temp = json["main"]["temp"];

@@ -36,13 +36,14 @@ class _HomePageState extends State<HomePage> {
   CustomSearchDelegate searchDelegate = CustomSearchDelegate();
 
   Future<void> getData() async{
-  data = await client.getCurrentWeather("Berlin");
+  data = await client.getCurrentWeather("Potsdam");
   }
 
   @override
   Widget build(BuildContext context) {
     //Creating the UI of the app
-    return Scaffold(
+    return MaterialApp(
+      home: Scaffold(
         extendBodyBehindAppBar: true,
         backgroundColor: Color(0xFFf9f9f9),
         appBar: AppBar(
@@ -64,8 +65,8 @@ class _HomePageState extends State<HomePage> {
               color: Colors.deepPurple,
               onPressed: () {
                 showSearch(
-                    context: context,
-                    delegate: searchDelegate,
+                  context: context,
+                  delegate: searchDelegate,
                 );
               },
             )
@@ -79,35 +80,36 @@ class _HomePageState extends State<HomePage> {
                 fit: BoxFit.cover,
               )
           ),
-        child: FutureBuilder(
-          future: getData(),
-          builder: (context, snapshot){
-            if(snapshot.connectionState == ConnectionState.done){
-              return Column(crossAxisAlignment: CrossAxisAlignment.center, children: [
-                //custom widget
-                currentWeather(Icons.wb_cloudy_outlined, "${data!.temp!.round()}°", "${data!.cityName}"),
-                const SizedBox(
-                  height: 20.0,
-                ),
-                const Text(
-                    "Additional Information",
-                    style: TextStyle(
-                      fontSize: 24.0,
-                      color: Color(0xdd212121),
-                      fontWeight: FontWeight.bold,)
-                ),
-                const Divider(),
-                const SizedBox(
-                  height: 20.0,
-                ),
-                // Additional information about the weather
-                additionalInformation("${data!.wind}", "${data!.humidity}", "${data!.pressure}", "${data!.realFeel!.round()}°")
-              ]);
-            }
-            return Container();
-          }
+          child: FutureBuilder(
+              future: getData(),
+              builder: (context, snapshot){
+                if(snapshot.connectionState == ConnectionState.done){
+                  return Column(crossAxisAlignment: CrossAxisAlignment.center, children: [
+                    //custom widget
+                    currentWeather(Icons.wb_cloudy_outlined, "${data!.temp!.round()}°", "${data!.cityName}"),
+                    const SizedBox(
+                      height: 20.0,
+                    ),
+                    const Text(
+                        "Additional Information",
+                        style: TextStyle(
+                          fontSize: 24.0,
+                          color: Color(0xdd212121),
+                          fontWeight: FontWeight.bold,)
+                    ),
+                    const Divider(),
+                    const SizedBox(
+                      height: 20.0,
+                    ),
+                    // Additional information about the weather
+                    additionalInformation("${data!.wind}", "${data!.humidity}", "${data!.pressure}", "${data!.realFeel!.round()}°")
+                  ]);
+                }
+                return Container();
+              }
+          ),
         ),
-        ),
+      ),
     );
   }
 }
