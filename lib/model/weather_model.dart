@@ -30,5 +30,6 @@ class Weather{
     pressure = json["main"]["pressure"];
     realFeel = json["main"]["feels_like"];
     skyIcon = json["weather"]["icon"];
+    //this last variable should be returning a string but is returning null, I did something wrong but I wont check till tomorrow
   }
 }
