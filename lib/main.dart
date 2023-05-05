@@ -32,11 +32,14 @@ class HomePage extends StatefulWidget {
 class _HomePageState extends State<HomePage> {
   WeatherApiClient client = WeatherApiClient();
   Weather? data;
+  final TextEditingController _searchController = TextEditingController();
+
+  var location = "London";
 
   CustomSearchDelegate searchDelegate = CustomSearchDelegate();
 
   Future<void> getData() async{
-  data = await client.getCurrentWeather("Potsdam");
+  data = await client.getCurrentWeather(location);
   }
 
   @override
@@ -49,9 +52,20 @@ class _HomePageState extends State<HomePage> {
         appBar: AppBar(
           backgroundColor: Color(0xE6000000),
           elevation: 0.0,
-          title: const Text(
-            "Weather App",
-            style: TextStyle(color: Colors.deepPurple),
+          title: TextField(
+            controller: _searchController,
+            style : const TextStyle(color: Colors.grey),
+            decoration: const InputDecoration(
+              fillColor: Color(0xE2ffffff),
+              border: OutlineInputBorder(
+                borderRadius: const BorderRadius.all(Radius.circular(4.0)),
+                borderSide: BorderSide.none,
+              ),
+              hintText: 'Search City...',
+              hintStyle: const TextStyle(color: Colors.grey),
+              suffixIcon: Icon(Icons.search),
+              suffixIconColor: Colors.grey,
+            )
           ),
           centerTitle: true,
           leading: IconButton(
@@ -59,18 +73,6 @@ class _HomePageState extends State<HomePage> {
             icon: const Icon(Icons.menu),
             color: Colors.deepPurple,
           ),
-          actions: [
-            IconButton(
-              icon: const Icon(Icons.search),
-              color: Colors.deepPurple,
-              onPressed: () {
-                showSearch(
-                  context: context,
-                  delegate: searchDelegate,
-                );
-              },
-            )
-          ],
         ),
         body: Container(
           padding:  EdgeInsets.fromLTRB(0, 120, 0, 33),
@@ -86,7 +88,7 @@ class _HomePageState extends State<HomePage> {
                 if(snapshot.connectionState == ConnectionState.done){
                   return Column(crossAxisAlignment: CrossAxisAlignment.center, children: [
                     //custom widget
-                    currentWeather(Icons.wb_cloudy_outlined, "${data!.temp!.round()}°", "${data!.cityName}"),
+                    currentWeather("${data!.skyIcon}", "${data!.temp!.round()}°", "${data!.cityName}"),
                     const SizedBox(
                       height: 20.0,
                     ),

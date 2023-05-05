@@ -13,7 +13,7 @@ class WeatherApiClient{
       var response = await http.get(endpoint);
       //we then use a json decoder to transform the information into string
       var body = jsonDecode(response.body);
-      print(Weather.fromJson(body).runtimeType);
+      print(Weather.fromJson(body).skyIcon);
       return Weather.fromJson(body);
   }
 }

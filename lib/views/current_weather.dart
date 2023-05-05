@@ -4,17 +4,14 @@ import 'package:flutter/material.dart';
 //will be modified with the proper containers once
 //the figma design is finished
 
-Widget currentWeather(IconData icon, String temp, String location){
+Widget currentWeather(String icon, String temp, String location){
   return Center(
     child: Column(
       crossAxisAlignment: CrossAxisAlignment.center,
       mainAxisAlignment: MainAxisAlignment.center,
       children: [
-        Icon(
-          icon,
-          color: Colors.blueGrey,
-          size: 64.0
-        ),
+        Image(image: AssetImage('lib/icons/${icon}.png')),
+
         SizedBox(
           height: 10.0,
         ),
