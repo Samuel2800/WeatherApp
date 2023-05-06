@@ -34,7 +34,7 @@ class _HomePageState extends State<HomePage> {
   Weather? data;
   final TextEditingController _searchController = TextEditingController();
 
-  var location = "London";
+  var location = "Tokyo";
 
   CustomSearchDelegate searchDelegate = CustomSearchDelegate();
 
