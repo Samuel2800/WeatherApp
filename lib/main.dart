@@ -3,6 +3,7 @@ import 'package:weather_app/model/weather_model.dart';
 import 'package:weather_app/services/weather_api_client.dart';
 import 'package:weather_app/views/additional_information.dart';
 import 'package:weather_app/views/current_weather.dart';
+import 'package:toggle_switch/toggle_switch.dart';
 
 import 'delegates/custom_search_delegate.dart';
 
@@ -32,19 +33,21 @@ class HomePage extends StatefulWidget {
 class _HomePageState extends State<HomePage> {
   WeatherApiClient client = WeatherApiClient();
   Weather? data;
-  final TextEditingController _searchController = TextEditingController();
+  //final TextEditingController _searchController = TextEditingController();
 
-  var location = "Tokyo";
+  var location = "Berlin";
+  var units = "";
 
-  CustomSearchDelegate searchDelegate = CustomSearchDelegate();
+  //CustomSearchDelegate searchDelegate = CustomSearchDelegate();
 
   Future<void> getData() async{
-  data = await client.getCurrentWeather(location);
+  data = await client.getCurrentWeather(location, units);
   }
 
   @override
   Widget build(BuildContext context) {
     //Creating the UI of the app
+    var currData = getData();
     return MaterialApp(
       home: Scaffold(
         extendBodyBehindAppBar: true,
@@ -53,7 +56,7 @@ class _HomePageState extends State<HomePage> {
           backgroundColor: Color(0xE6000000),
           elevation: 0.0,
           title: TextField(
-            controller: _searchController,
+            //controller: _searchController,
             style : const TextStyle(color: Colors.grey),
             decoration: const InputDecoration(
               fillColor: Color(0xE2ffffff),
@@ -73,17 +76,34 @@ class _HomePageState extends State<HomePage> {
             icon: const Icon(Icons.menu),
             color: Colors.deepPurple,
           ),
+          actions: <Widget>[
+            ToggleSwitch(
+              initialLabelIndex: 0,
+              totalSwitches: 2,
+              labels: ['°C', '°F'],
+              onToggle: (index){
+                if(index == 0){
+                  units = "metric";
+                }
+                else{
+                  units = "imperial";
+                }
+                print(units);
+                currData = getData();
+              },
+            )
+          ]
         ),
         body: Container(
           padding:  EdgeInsets.fromLTRB(0, 120, 0, 33),
           decoration: const BoxDecoration(
               image: DecorationImage(
-                image:AssetImage('assets/clouds.jpg'),
+                image:AssetImage('assets/Background/clouds.jpg'),
                 fit: BoxFit.cover,
               )
           ),
           child: FutureBuilder(
-              future: getData(),
+              future: currData,
               builder: (context, snapshot){
                 if(snapshot.connectionState == ConnectionState.done){
                   return Column(crossAxisAlignment: CrossAxisAlignment.center, children: [
