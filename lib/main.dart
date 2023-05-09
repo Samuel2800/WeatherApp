@@ -17,7 +17,7 @@ class MyApp extends StatelessWidget {
   // This widget is the root of your application.
   @override
   Widget build(BuildContext context) {
-    return MaterialApp(
+    return const MaterialApp(
       home: HomePage(),
     );
   }
@@ -36,18 +36,18 @@ class _HomePageState extends State<HomePage> {
   //final TextEditingController _searchController = TextEditingController();
 
   var location = "Berlin";
-  var units = "";
+  var units = "metric";
+  var selectedUnitIndex = 0;
 
   //CustomSearchDelegate searchDelegate = CustomSearchDelegate();
 
   Future<void> getData() async{
-  data = await client.getCurrentWeather(location, units);
+    data = await client.getCurrentWeather(location, units);
   }
 
   @override
   Widget build(BuildContext context) {
     //Creating the UI of the app
-    var currData = getData();
     return MaterialApp(
       home: Scaffold(
         extendBodyBehindAppBar: true,
@@ -55,17 +55,17 @@ class _HomePageState extends State<HomePage> {
         appBar: AppBar(
           backgroundColor: Color(0xE6000000),
           elevation: 0.0,
-          title: TextField(
+          title: const TextField(
             //controller: _searchController,
-            style : const TextStyle(color: Colors.grey),
-            decoration: const InputDecoration(
+            style : TextStyle(color: Colors.grey),
+            decoration: InputDecoration(
               fillColor: Color(0xE2ffffff),
               border: OutlineInputBorder(
-                borderRadius: const BorderRadius.all(Radius.circular(4.0)),
+                borderRadius: BorderRadius.all(Radius.circular(4.0)),
                 borderSide: BorderSide.none,
               ),
               hintText: 'Search City...',
-              hintStyle: const TextStyle(color: Colors.grey),
+              hintStyle: TextStyle(color: Colors.grey),
               suffixIcon: Icon(Icons.search),
               suffixIconColor: Colors.grey,
             )
@@ -78,24 +78,26 @@ class _HomePageState extends State<HomePage> {
           ),
           actions: <Widget>[
             ToggleSwitch(
-              initialLabelIndex: 0,
+              initialLabelIndex: selectedUnitIndex,
               totalSwitches: 2,
-              labels: ['°C', '°F'],
-              onToggle: (index){
-                if(index == 0){
-                  units = "metric";
-                }
-                else{
-                  units = "imperial";
-                }
-                print(units);
-                currData = getData();
-              },
+              labels: const ['°C', '°F'],
+              onToggle: (index) {
+                setState(() {
+                  selectedUnitIndex = index!;
+                  if (index == 0) {
+                    units = "metric";
+                  }
+                  else {
+                    units = "imperial";
+                  }
+                });
+                getData();
+             },
             )
           ]
         ),
         body: Container(
-          padding:  EdgeInsets.fromLTRB(0, 120, 0, 33),
+          padding:  const EdgeInsets.fromLTRB(0, 120, 0, 33),
           decoration: const BoxDecoration(
               image: DecorationImage(
                 image:AssetImage('assets/Background/clouds.jpg'),
@@ -103,7 +105,7 @@ class _HomePageState extends State<HomePage> {
               )
           ),
           child: FutureBuilder(
-              future: currData,
+              future: getData(),
               builder: (context, snapshot){
                 if(snapshot.connectionState == ConnectionState.done){
                   return Column(crossAxisAlignment: CrossAxisAlignment.center, children: [
