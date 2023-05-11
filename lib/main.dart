@@ -5,7 +5,7 @@ import 'package:weather_app/views/additional_information.dart';
 import 'package:weather_app/views/current_weather.dart';
 import 'package:toggle_switch/toggle_switch.dart';
 
-import 'delegates/custom_search_delegate.dart';
+//import 'delegates/custom_search_delegate.dart';
 
 void main() {
   runApp(const MyApp());
@@ -33,7 +33,10 @@ class HomePage extends StatefulWidget {
 class _HomePageState extends State<HomePage> {
   WeatherApiClient client = WeatherApiClient();
   Weather? data;
-  //final TextEditingController _searchController = TextEditingController();
+  //the controller keeps track of what the user is typing
+  final TextEditingController _searchController = TextEditingController();
+  bool _showClearButton = false;
+
 
   var location = "Berlin";
   var units = "metric";
@@ -45,31 +48,63 @@ class _HomePageState extends State<HomePage> {
     data = await client.getCurrentWeather(location, units);
   }
 
+  void _onTextChanged(String value) {
+    setState(() {
+      _showClearButton = value.isNotEmpty;
+    });
+  }
+
+  void _onClear() {
+    setState(() {
+      _searchController.clear();
+      _showClearButton = false;
+    });
+  }
+
   @override
   Widget build(BuildContext context) {
     //Creating the UI of the app
     return MaterialApp(
       home: Scaffold(
         extendBodyBehindAppBar: true,
-        backgroundColor: Color(0xFFf9f9f9),
+        backgroundColor: const Color(0xFFf9f9f9),
         appBar: AppBar(
-          backgroundColor: Color(0xE6000000),
+          backgroundColor: const Color(0xE6000000),
           elevation: 0.0,
-          title: const TextField(
-            //controller: _searchController,
-            style : TextStyle(color: Colors.grey),
-            decoration: InputDecoration(
-              fillColor: Color(0xE2ffffff),
-              border: OutlineInputBorder(
-                borderRadius: BorderRadius.all(Radius.circular(4.0)),
-                borderSide: BorderSide.none,
+          title: Stack(
+            children: [
+              TextField(
+                controller: _searchController,
+                onChanged: _onTextChanged,
+                style : const TextStyle(color: Colors.grey),
+                decoration: InputDecoration(
+                  fillColor: const Color(0xE2ffffff),
+                  border: const OutlineInputBorder(
+                    borderRadius: BorderRadius.all(Radius.circular(4.0)),
+                    borderSide: BorderSide.none,
+                  ),
+                  hintText: 'Search City...',
+                  hintStyle: const TextStyle(color: Colors.grey),
+                  suffixIcon: _showClearButton ? null : const Icon(Icons.search),
+                  suffixIconColor: Colors.grey,
+                ),
+                onSubmitted: (String value){
+                  setState(() {
+                    location = _searchController.text;
+                    _onClear();
+                  });
+                },
               ),
-              hintText: 'Search City...',
-              hintStyle: TextStyle(color: Colors.grey),
-              suffixIcon: Icon(Icons.search),
-              suffixIconColor: Colors.grey,
-            )
+              Visibility(
+                visible: _showClearButton,
+                child: IconButton(
+                  icon: const Icon(Icons.clear),
+                  onPressed: _onClear,
+                ),
+              ),
+            ],
           ),
+
           centerTitle: true,
           leading: IconButton(
             onPressed: () {},
