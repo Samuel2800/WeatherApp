@@ -4,6 +4,7 @@ import 'package:weather_app/services/weather_api_client.dart';
 import 'package:weather_app/views/additional_information.dart';
 import 'package:weather_app/views/current_weather.dart';
 import 'package:toggle_switch/toggle_switch.dart';
+import 'package:weather_app/widgets/navigation_drawer_widget.dart';
 
 //import 'delegates/custom_search_delegate.dart';
 
@@ -68,6 +69,8 @@ class _HomePageState extends State<HomePage> {
       home: Scaffold(
         extendBodyBehindAppBar: true,
         backgroundColor: const Color(0xFFf9f9f9),
+        //this is the sidebar menu
+        drawer: NavigationDrawerWidget(),
         appBar: AppBar(
           backgroundColor: const Color(0xE6000000),
           elevation: 0.0,
@@ -104,13 +107,12 @@ class _HomePageState extends State<HomePage> {
               ),
             ],
           ),
-
           centerTitle: true,
-          leading: IconButton(
-            onPressed: () {},
-            icon: const Icon(Icons.menu),
-            color: Colors.deepPurple,
-          ),
+          //leading: IconButton(
+          //  onPressed: () {},
+          //  icon: const Icon(Icons.menu),
+          //  color: Colors.deepPurple,
+          //),
           actions: <Widget>[
             ToggleSwitch(
               initialLabelIndex: selectedUnitIndex,
