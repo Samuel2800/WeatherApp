@@ -134,7 +134,7 @@ class _NiceScreenState extends State<NiceScreen> {
               width: double.infinity,
             ),
             Padding(
-                padding: const EdgeInsets.only(top: 100),
+                padding: const EdgeInsets.only(top: 50),
               child: Center(
                 child: Container(
                   width: 350,
@@ -160,8 +160,78 @@ class _NiceScreenState extends State<NiceScreen> {
                   ),
                 ),
               ),
-
             ),
+
+            Padding(
+              padding: const EdgeInsets.only(top: 450, left: 45),
+              child: Container(
+                //child: Text,
+                width: 140,
+                height: 130,
+                decoration: BoxDecoration(
+                  color: Colors.deepPurple.withOpacity(0.2),
+                  borderRadius: BorderRadius.circular(20),
+                  border: Border.all(color: Colors.grey),
+                )
+              ),
+
+            //  child: GridView.count(
+            //    crossAxisCount: 2,
+            //    children: List.generate(4, (index) {
+            //      return Center(
+            //        child: Text(
+            //          'Item $index',
+            //          style: TextStyle(
+            //              color: Colors.white
+            //          ),
+            //        ),
+            //      );
+            //    }),
+            //  ),
+            ),
+
+            Padding(
+              padding: const EdgeInsets.only(top: 450, left: 220),
+              child: Container(
+                  //child: Text,
+                  width: 140,
+                  height: 130,
+                  decoration: BoxDecoration(
+                    color: Colors.deepPurple.withOpacity(0.2),
+                    borderRadius: BorderRadius.circular(20),
+                    border: Border.all(color: Colors.grey),
+                  )
+              ),
+            ),
+
+            Padding(
+              padding: const EdgeInsets.only(top: 650, left: 220),
+              child: Container(
+                //child: Text,
+                  width: 140,
+                  height: 130,
+                  decoration: BoxDecoration(
+                    color: Colors.deepPurple.withOpacity(0.2),
+                    borderRadius: BorderRadius.circular(20),
+                    border: Border.all(color: Colors.grey),
+                  )
+              ),
+            ),
+
+            Padding(
+              padding: const EdgeInsets.only(top: 650, left: 45),
+              child: Container(
+                //child: Text,
+                  width: 140,
+                  height: 130,
+                  decoration: BoxDecoration(
+                    color: Colors.deepPurple.withOpacity(0.2),
+                    borderRadius: BorderRadius.circular(20),
+                    border: Border.all(color: Colors.grey),
+                  )
+              ),
+            ),
+
           ],
         ),
       ),
