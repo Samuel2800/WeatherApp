@@ -10,25 +10,34 @@ Widget currentWeather(String icon, String temp, String location){
       crossAxisAlignment: CrossAxisAlignment.center,
       mainAxisAlignment: MainAxisAlignment.center,
       children: [
-        Image(image: AssetImage('lib/icons/${icon}.png')),
+        const SizedBox(
+          height: 50.0,
+        ),
+        Text(
+          location,
+          style: const TextStyle(
+            fontSize: 64.0,
+            fontFamily: 'Schyler',
+            fontWeight: FontWeight.w400,
+            color: Colors.white,
+          ),
+        ),
+        const SizedBox(height: 10),
 
-        SizedBox(
-          height: 10.0,
-        ),
         Text(
-          "$temp",
-          style: TextStyle(
-            fontSize: 46.0,
+          temp,
+          style: const TextStyle(
+            fontSize: 64.0,
+            fontFamily: 'Schyler',
+            fontWeight: FontWeight.w700,
+            color: Colors.white,
           ),
         ),
-        SizedBox(height: 10),
-        Text(
-          "$location",
-          style: TextStyle(
-            fontSize: 18.0,
-            color: Color(0xFF5a5a5a),
-          ),
-        )
+
+
+        Image(image: AssetImage('assets/Icons/$icon.png')),
+
+
       ]
     ),
   );
