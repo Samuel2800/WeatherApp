@@ -70,6 +70,18 @@ class _NiceScreenState extends State<NiceScreen> {
                   onChanged: _onTextChanged,
                   style : const TextStyle(color: Colors.grey),
                   decoration: InputDecoration(
+                    prefixIcon: IconButton(
+                      onPressed: () {
+                        setState(() {
+                          location = "current";
+                          _onClear();
+                        });
+                      },
+                      icon: const Icon(
+                          Icons.location_on_outlined,
+                          color: Colors.deepPurple,
+                      ),
+                    ),
                     fillColor: const Color(0xE2ffffff),
                     border: const OutlineInputBorder(
                       borderRadius: BorderRadius.all(Radius.circular(4.0)),
@@ -125,116 +137,250 @@ class _NiceScreenState extends State<NiceScreen> {
             ]
         ),
 
-        body: Stack(
-          children: [
-            Image.asset(
+        body: Container(
+          decoration: const BoxDecoration(
+            image: DecorationImage(
+              image: AssetImage(
                 'assets/Background/rain.png',
+              ),
               fit: BoxFit.cover,
-              height: double.infinity,
-              width: double.infinity,
-            ),
-            Padding(
-                padding: const EdgeInsets.only(top: 50),
-              child: Center(
-                child: Container(
-                  width: 350,
-                  height: 715,
-                  decoration: BoxDecoration(
-                    color: Colors.black.withOpacity(0.8),
-                    borderRadius: BorderRadius.circular(20),
-                  ),
-
-                  child: FutureBuilder(
+            )
+          ),
+          child: Center(
+            child: Container(
+              margin: const EdgeInsets.fromLTRB(30, 120, 30, 20),
+              decoration: BoxDecoration(
+                borderRadius: BorderRadius.circular(20),
+                color: Colors.black.withOpacity(0.8),
+              ),
+              child: Column(
+                mainAxisAlignment: MainAxisAlignment.center,
+                children: [
+                  FutureBuilder(
                     future: getData(),
                     builder: (context, snapshot){
                       if(snapshot.connectionState == ConnectionState.done){
                         return Column(crossAxisAlignment: CrossAxisAlignment.center,
                           mainAxisAlignment: MainAxisAlignment.start,
                           children: [
-                            currentWeather("${data!.skyIcon}", "${data!.temp!.round()} °$unitSymbol", "${data!.cityName}"),
+                            currentWeather("${data!.skyIcon}", "${data!.temp!.round()} °$unitSymbol", "${data!.cityName}", "${data!.description}"),
                           ],
                         );
                       }
                       return Container();
                     },
                   ),
-                ),
-              ),
-            ),
 
-            Padding(
-              padding: const EdgeInsets.only(top: 450, left: 45),
-              child: Container(
-                //child: Text,
-                width: 140,
-                height: 130,
-                decoration: BoxDecoration(
-                  color: Colors.deepPurple.withOpacity(0.2),
-                  borderRadius: BorderRadius.circular(20),
-                  border: Border.all(color: Colors.grey),
-                )
-              ),
-
-            //  child: GridView.count(
-            //    crossAxisCount: 2,
-            //    children: List.generate(4, (index) {
-            //      return Center(
-            //        child: Text(
-            //          'Item $index',
-            //          style: TextStyle(
-            //              color: Colors.white
-            //          ),
-            //        ),
-            //      );
-            //    }),
-            //  ),
-            ),
-
-            Padding(
-              padding: const EdgeInsets.only(top: 450, left: 220),
-              child: Container(
-                  //child: Text,
-                  width: 140,
-                  height: 130,
-                  decoration: BoxDecoration(
-                    color: Colors.deepPurple.withOpacity(0.2),
-                    borderRadius: BorderRadius.circular(20),
-                    border: Border.all(color: Colors.grey),
+                  const SizedBox(height: 8),
+                  Container(
+                      margin : const EdgeInsets. symmetric( vertical: 10, horizontal: 20),
+                      child: Row(
+                        crossAxisAlignment: CrossAxisAlignment.start,
+                        children: [
+                          Expanded(
+                            child: AspectRatio(
+                              aspectRatio: 1.0,
+                              child: Container(
+                                decoration: BoxDecoration(
+                                  color: const Color.fromRGBO(72, 49, 157, 0.2),
+                                  borderRadius: BorderRadius.circular(20),
+                                ),
+                                padding: const EdgeInsets.all(20),
+                                child: Column(
+                                  crossAxisAlignment: CrossAxisAlignment.start,
+                                  children: [
+                                    const Text(
+                                      "Feels like",
+                                      style: TextStyle(
+                                        fontSize: 14,
+                                        fontWeight: FontWeight.w700,
+                                        color: Colors.white60,                                      )
+                                    ),
+                                    Text(
+                                      data!.realFeel!.round().toString(),
+                                      style: const TextStyle(
+                                        fontSize: 28,
+                                        fontWeight: FontWeight.w400,
+                                        color: Colors.white,
+                                      ),
+                                    ),
+                                    const Text(
+                                      "Similarity rate.",
+                                      style: TextStyle(
+                                          fontSize: 14,
+                                          fontWeight: FontWeight.bold,
+                                          color: Colors.white60
+                                      ),
+                                    ),
+                                  ],
+                                ),
+                              ),
+                            ),
+                          ),
+                          const SizedBox(width: 20),
+                          Expanded(
+                            child: AspectRatio(
+                              aspectRatio: 1.0,
+                              child: Container(
+                                decoration: BoxDecoration(
+                                  color: const Color.fromRGBO(72, 49, 157, 0.2),
+                                  borderRadius: BorderRadius.circular(20),
+                                ),
+                                padding: const EdgeInsets.all(20),
+                                child: Column(
+                                  crossAxisAlignment: CrossAxisAlignment.start,
+                                  children: [
+                                    const Text(
+                                      "Humidity",
+                                      style: TextStyle(
+                                        fontSize: 14,
+                                        fontWeight: FontWeight.w400,
+                                        color: Colors.white60
+                                      ),
+                                    ),
+                                    Text(
+                                      data!.humidity.toString(),
+                                      style: const TextStyle(
+                                          fontSize: 24,
+                                          fontWeight: FontWeight.bold,
+                                          color: Colors.white),
+                                    ),
+                                    Text(
+                                      'The dew point is ${(data!.temp! - ((100 - data!.humidity!.toInt()) / 5)).round().toString()} right now.',
+                                      style: const TextStyle(
+                                          fontSize: 13,
+                                          fontWeight: FontWeight.bold,
+                                          color: Colors.white60),
+                                    ),
+                                  ],
+                                ),
+                              ),
+                            ),
+                          )
+                        ],
+                      ),
                   )
-              ),
-            ),
 
-            Padding(
-              padding: const EdgeInsets.only(top: 650, left: 220),
-              child: Container(
-                //child: Text,
-                  width: 140,
-                  height: 130,
-                  decoration: BoxDecoration(
-                    color: Colors.deepPurple.withOpacity(0.2),
-                    borderRadius: BorderRadius.circular(20),
-                    border: Border.all(color: Colors.grey),
-                  )
-              ),
-            ),
 
-            Padding(
-              padding: const EdgeInsets.only(top: 650, left: 45),
-              child: Container(
-                //child: Text,
-                  width: 140,
-                  height: 130,
-                  decoration: BoxDecoration(
-                    color: Colors.deepPurple.withOpacity(0.2),
-                    borderRadius: BorderRadius.circular(20),
-                    border: Border.all(color: Colors.grey),
-                  )
+                ]
               ),
-            ),
-
-          ],
+            )
+          ),
         ),
       ),
+
+        //body: Stack(
+        //  children: [
+        //    Image.asset(
+        //        'assets/Background/rain.png',
+        //      fit: BoxFit.cover,
+        //      height: double.infinity,
+        //      width: double.infinity,
+        //    ),
+        //    Padding(
+        //        padding: const EdgeInsets.only(top: 50),
+        //      child: Center(
+        //        child: Container(
+        //          width: 350,
+        //          height: 715,
+        //          decoration: BoxDecoration(
+        //            color: Colors.black.withOpacity(0.8),
+        //            borderRadius: BorderRadius.circular(20),
+        //          ),
+//
+        //          child: FutureBuilder(
+        //            future: getData(),
+        //            builder: (context, snapshot){
+        //              if(snapshot.connectionState == ConnectionState.done){
+        //                return Column(crossAxisAlignment: CrossAxisAlignment.center,
+        //                  mainAxisAlignment: MainAxisAlignment.start,
+        //                  children: [
+        //                    currentWeather("${data!.skyIcon}", "${data!.temp!.round()} °$unitSymbol", "${data!.cityName}"),
+        //                  ],
+        //                );
+        //              }
+        //              return Container();
+        //            },
+        //          ),
+        //        ),
+        //      ),
+        //    ),
+//
+        //    //TODO: write all the code below into the additional_informatiton.dart file
+//
+        //    Padding(
+        //      padding: const EdgeInsets.only(top: 450, left: 45),
+        //      child: Container(
+        //        //child: Text,
+        //        width: 140,
+        //        height: 130,
+        //        decoration: BoxDecoration(
+        //          color: Colors.deepPurple.withOpacity(0.2),
+        //          borderRadius: BorderRadius.circular(20),
+        //          border: Border.all(color: Colors.grey),
+        //        )
+        //      ),
+//
+        //    //  child: GridView.count(
+        //    //    crossAxisCount: 2,
+        //    //    children: List.generate(4, (index) {
+        //    //      return Center(
+        //    //        child: Text(
+        //    //          'Item $index',
+        //    //          style: TextStyle(
+        //    //              color: Colors.white
+        //    //          ),
+        //    //        ),
+        //    //      );
+        //    //    }),
+        //    //  ),
+        //    ),
+//
+        //    Padding(
+        //      padding: const EdgeInsets.only(top: 450, left: 220),
+        //      child: Container(
+        //          //child: Text,
+        //          width: 140,
+        //          height: 130,
+        //          decoration: BoxDecoration(
+        //            color: Colors.deepPurple.withOpacity(0.2),
+        //            borderRadius: BorderRadius.circular(20),
+        //            border: Border.all(color: Colors.grey),
+        //          )
+        //      ),
+        //    ),
+//
+        //    Padding(
+        //      padding: const EdgeInsets.only(top: 650, left: 220),
+        //      child: Container(
+        //        //child: Text,
+        //          width: 140,
+        //          height: 130,
+        //          decoration: BoxDecoration(
+        //            color: Colors.deepPurple.withOpacity(0.2),
+        //            borderRadius: BorderRadius.circular(20),
+        //            border: Border.all(color: Colors.grey),
+        //          )
+        //      ),
+        //    ),
+//
+        //    Padding(
+        //      padding: const EdgeInsets.only(top: 650, left: 45),
+        //      child: Container(
+        //        //child: Text,
+        //          width: 140,
+        //          height: 130,
+        //          decoration: BoxDecoration(
+        //            color: Colors.deepPurple.withOpacity(0.2),
+        //            borderRadius: BorderRadius.circular(20),
+        //            border: Border.all(color: Colors.grey),
+        //          )
+        //      ),
+        //    ),
+//
+        //  ],
+        //),
+      //),
     );
   }
   
