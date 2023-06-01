@@ -9,6 +9,7 @@ class Weather{
   int? pressure;
   double? realFeel;
   String? skyIcon;
+  String? description;
 
   Weather({
     this.cityName,
@@ -17,7 +18,8 @@ class Weather{
     this.humidity,
     this.pressure,
     this.realFeel,
-    this.skyIcon
+    this.skyIcon,
+    this.description
   });
 
   //this is a model to get specific information from the API
@@ -30,5 +32,6 @@ class Weather{
     pressure = json["main"]["pressure"];
     realFeel = json["main"]["feels_like"];
     skyIcon = json["weather"][0]["icon"];
+    description = json['weather'][0]['description'];
   }
 }
