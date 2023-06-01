@@ -4,15 +4,11 @@ import 'package:flutter/material.dart';
 //will be modified with the proper containers once
 //the figma design is finished
 
-Widget currentWeather(String icon, String temp, String location){
+Widget currentWeather(String icon, String temp, String location, String description){
   return Center(
     child: Column(
-      crossAxisAlignment: CrossAxisAlignment.center,
       mainAxisAlignment: MainAxisAlignment.center,
       children: [
-        const SizedBox(
-          height: 50.0,
-        ),
         Text(
           location,
           style: const TextStyle(
@@ -35,7 +31,26 @@ Widget currentWeather(String icon, String temp, String location){
         ),
 
 
-        Image(image: AssetImage('assets/Icons/$icon.png')),
+        const SizedBox(height: 10),
+
+        Center(
+          child: Row(
+            mainAxisAlignment: MainAxisAlignment.center,
+            children: [
+              Image(image: AssetImage('assets/Icons/$icon.png')),
+              const SizedBox(width: 10),
+              Text(
+                description,
+                style: const TextStyle(
+                  fontSize: 30.0,
+                  fontFamily: 'Schyler',
+                  fontWeight: FontWeight.w400,
+                  color: Colors.white,
+                ),
+              ),
+            ],
+          ),
+        ),
 
 
       ]
