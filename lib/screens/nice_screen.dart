@@ -29,6 +29,7 @@ class _NiceScreenState extends State<NiceScreen> {
   var unitSymbol = "C";
   var speedUnits = "m/s";
   var selectedUnitIndex = 0;
+  var background = "clear";
 
   //CustomSearchDelegate searchDelegate = CustomSearchDelegate();
 
@@ -140,6 +141,7 @@ class _NiceScreenState extends State<NiceScreen> {
                     }
                   });
                   getData();
+                  background = data!.mainDescription!;
                 },
               )
             ]
@@ -149,7 +151,7 @@ class _NiceScreenState extends State<NiceScreen> {
           decoration: const BoxDecoration(
             image: DecorationImage(
               image: AssetImage(
-                'assets/Background/rain.png',
+                'assets/Background/${background!}.png',
               ),
               fit: BoxFit.cover,
             )
