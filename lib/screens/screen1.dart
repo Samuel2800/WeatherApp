@@ -132,7 +132,7 @@ class _Screen1State extends State<Screen1> {
                 if(snapshot.connectionState == ConnectionState.done){
                   return Column(crossAxisAlignment: CrossAxisAlignment.center, children: [
                     //custom widget
-                    currentWeather("${data!.skyIcon}", "${data!.temp!.round()}°", "${data!.cityName}", "${data!.description}"),
+                    currentWeather("${data!.skyIcon}", "${data!.temp!.round()}°", "${data!.cityName}", "${data!.mainDescription}"),
                     const SizedBox(
                       height: 20.0,
                     ),
@@ -148,7 +148,7 @@ class _Screen1State extends State<Screen1> {
                       height: 20.0,
                     ),
                     // Additional information about the weather
-                    additionalInformation("${data!.wind}", "${data!.humidity}", "${data!.pressure}", "${data!.realFeel!.round()}°")
+                    additionalInformation("${data!.windSpeed}", "${data!.humidity}", "${data!.pressure}", "${data!.realFeel!.round()}°")
                   ]);
                 }
                 return Container();

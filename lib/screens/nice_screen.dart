@@ -1,3 +1,4 @@
+import 'package:flutter/gestures.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:weather_app/model/weather_model.dart';
@@ -10,7 +11,6 @@ import 'package:weather_app/widgets/navigation_drawer_widget.dart';
 
 class NiceScreen extends StatefulWidget{
   const NiceScreen({Key? key}) : super(key: key);
-
   @override
   State<NiceScreen> createState() => _NiceScreenState();
 }
@@ -27,6 +27,7 @@ class _NiceScreenState extends State<NiceScreen> {
   var location = "Berlin";
   var units = "metric";
   var unitSymbol = "C";
+  var speedUnits = "m/s";
   var selectedUnitIndex = 0;
 
   //CustomSearchDelegate searchDelegate = CustomSearchDelegate();
@@ -57,6 +58,7 @@ class _NiceScreenState extends State<NiceScreen> {
     return MaterialApp(
       home: Scaffold(
         extendBodyBehindAppBar: true,
+        resizeToAvoidBottomInset: false,
         backgroundColor: const Color(0xFFf9f9f9),
         //this is the sidebar menu
         drawer: NavigationDrawerWidget(),
@@ -101,9 +103,14 @@ class _NiceScreenState extends State<NiceScreen> {
                 ),
                 Visibility(
                   visible: _showClearButton,
-                  child: IconButton(
-                    icon: const Icon(Icons.clear),
-                    onPressed: _onClear,
+                  child: Row(
+                    mainAxisAlignment: MainAxisAlignment.end,
+                    children: [
+                      IconButton(
+                          onPressed: _onClear,
+                          icon: const Icon(Icons.clear)
+                      )
+                    ]
                   ),
                 ),
               ],
@@ -129,6 +136,7 @@ class _NiceScreenState extends State<NiceScreen> {
                     else {
                       units = "imperial";
                       unitSymbol = "F";
+                      speedUnits = "m/h";
                     }
                   });
                   getData();
@@ -163,7 +171,7 @@ class _NiceScreenState extends State<NiceScreen> {
                         return Column(crossAxisAlignment: CrossAxisAlignment.center,
                           mainAxisAlignment: MainAxisAlignment.start,
                           children: [
-                            currentWeather("${data!.skyIcon}", "${data!.temp!.round()} °$unitSymbol", "${data!.cityName}", "${data!.description}"),
+                            currentWeather("${data!.skyIcon}", "${data!.temp!.round()} °$unitSymbol", "${data!.cityName}", "${data!.mainDescription}"),
                           ],
                         );
                       }
@@ -194,10 +202,11 @@ class _NiceScreenState extends State<NiceScreen> {
                                       style: TextStyle(
                                         fontSize: 14,
                                         fontWeight: FontWeight.w700,
-                                        color: Colors.white60,                                      )
+                                        color: Colors.white60,
+                                      )
                                     ),
                                     Text(
-                                      data!.realFeel!.round().toString(),
+                                      "${data!.realFeel!.round()}°$unitSymbol",
                                       style: const TextStyle(
                                         fontSize: 28,
                                         fontWeight: FontWeight.w400,
@@ -208,7 +217,7 @@ class _NiceScreenState extends State<NiceScreen> {
                                       "Similarity rate.",
                                       style: TextStyle(
                                           fontSize: 14,
-                                          fontWeight: FontWeight.bold,
+                                          fontWeight: FontWeight.w600,
                                           color: Colors.white60
                                       ),
                                     ),
@@ -239,17 +248,17 @@ class _NiceScreenState extends State<NiceScreen> {
                                       ),
                                     ),
                                     Text(
-                                      data!.humidity.toString(),
+                                      "${data!.humidity}%",
                                       style: const TextStyle(
                                           fontSize: 24,
-                                          fontWeight: FontWeight.bold,
+                                          fontWeight: FontWeight.w600,
                                           color: Colors.white),
                                     ),
                                     Text(
-                                      'The dew point is ${(data!.temp! - ((100 - data!.humidity!.toInt()) / 5)).round().toString()} right now.',
+                                      'The dew point is ${(data!.temp! - ((100 - data!.humidity!.toInt()) / 5)).round()} right now.',
                                       style: const TextStyle(
                                           fontSize: 13,
-                                          fontWeight: FontWeight.bold,
+                                          fontWeight: FontWeight.w600,
                                           color: Colors.white60),
                                     ),
                                   ],
@@ -259,7 +268,92 @@ class _NiceScreenState extends State<NiceScreen> {
                           )
                         ],
                       ),
-                  )
+                  ),
+
+                  Container(
+                    margin: const EdgeInsets.all(20),
+                    child: Row(
+                      crossAxisAlignment: CrossAxisAlignment.start,
+                      children: [
+                        Expanded(
+                          child: AspectRatio(
+                            aspectRatio: 1.0,
+                            child: Container(
+                              decoration: BoxDecoration(
+                                color: const Color.fromRGBO(72, 49, 157, 0.2),
+                                borderRadius: BorderRadius.circular(20),
+                              ),
+                              padding: const EdgeInsets.all(20),
+                              child: Column(
+                                crossAxisAlignment: CrossAxisAlignment.start,
+                                children: [
+                                  const Text(
+                                    'Visibility',
+                                    style: TextStyle(
+                                      fontSize: 14,
+                                      fontWeight: FontWeight.w400,
+                                      color: Colors.white60,
+                                    ),
+                                  ),
+                                  Text(
+                                    "${(data!.visibility!/ 1000).round()}Km",
+                                      style: const TextStyle(
+                                        fontSize: 24,
+                                        fontWeight: FontWeight.w600,
+                                        color: Colors.white
+                                      ),
+                                  ),
+                                  const Text(
+                                    'Max 10km.',
+                                    style: TextStyle(
+                                      fontSize: 17,
+                                      fontWeight: FontWeight.w600,
+                                      color: Colors.white60
+                                  ),
+                                  )
+                                ],
+                              ),
+                            )
+                          ),
+                        ),
+
+                        const SizedBox(width: 20),
+                        Expanded(
+                          child: AspectRatio(
+                            aspectRatio: 1.0,
+                            child: Container(
+                              decoration: BoxDecoration(
+                                color: const Color.fromRGBO(0x48, 0x31, 0x9D, 0.2),
+                                borderRadius: BorderRadius.circular(20),
+                              ),
+                              padding: const EdgeInsets.all(20),
+                              child: Column(
+                                crossAxisAlignment: CrossAxisAlignment.start,
+                                children: [
+                                  const Text(
+                                    'Wind',
+                                    style: TextStyle(
+                                      fontSize: 14,
+                                      fontWeight: FontWeight.w600,
+                                      color: Colors.white60,
+                                    ),
+                                  ),
+                                  Text(
+                                    "${data!.windSpeed} $speedUnits",
+                                    style: const TextStyle(
+                                        fontSize: 24,
+                                        fontWeight: FontWeight.w600,
+                                        color: Colors.white
+                                    ),
+                                  ),
+                                ],
+                              )
+                            ),
+                          ),
+                        )
+                      ],
+                    ),
+                  ),
 
 
                 ]

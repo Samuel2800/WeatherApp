@@ -28,8 +28,6 @@ class WeatherApiClient{
       var longitude = position.longitude;
       endpoint = Uri.parse("https://api.openweathermap.org/data/2.5/weather?lat=$latitude&lon=$longitude&appid=c623484b44d3372717ddafde6d0e88bf&units=$units");
       response = await http.get(endpoint);
-      print(latitude);
-      print(longitude);
     }
     else{
       //we use the endpoint and the response to connect to the API on the web
