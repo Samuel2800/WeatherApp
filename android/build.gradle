@@ -1,12 +1,20 @@
 buildscript {
+<<<<<<< HEAD
     ext.kotlin_version = '1.6.0'
+=======
+    ext.kotlin_version = '1.7.10'
+>>>>>>> origin/master
     repositories {
         google()
         mavenCentral()
     }
 
     dependencies {
+<<<<<<< HEAD
         classpath 'com.android.tools.build:gradle:7.2.2'
+=======
+        classpath 'com.android.tools.build:gradle:7.2.0'
+>>>>>>> origin/master
         classpath "org.jetbrains.kotlin:kotlin-gradle-plugin:$kotlin_version"
     }
 }
@@ -26,6 +34,10 @@ subprojects {
     project.evaluationDependsOn(':app')
 }
 
+<<<<<<< HEAD
 tasks.register("clean", Delete) {
+=======
+task clean(type: Delete) {
+>>>>>>> origin/master
     delete rootProject.buildDir
 }

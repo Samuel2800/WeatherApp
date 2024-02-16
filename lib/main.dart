@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+<<<<<<< HEAD
 import 'package:flutter/services.dart';
 import 'Pages/about_us_page.dart';
 import 'Pages/apikey_verification_page.dart';
@@ -39,13 +40,36 @@ class MyApp extends StatelessWidget {
         '/technologies_page':(context) => const TechnologiesPage(),
         '/contact_page':(context) => const ContactPage(),
         '/api_page':(context) => const ApiKeyVerificationPage(),
+=======
+import 'package:weather_app/screens/screen1.dart';
+import 'package:weather_app/screens/nice_screen.dart';
+
+
+//import 'delegates/custom_search_delegate.dart';
+
+void main() {
+  runApp(MyApp());
+}
+
+
+class MyApp extends StatelessWidget {
+  @override
+  Widget build(BuildContext context) {
+    return MaterialApp(
+      initialRoute: '/',
+      routes:
+      {'/': (context) => NiceScreen(),
+>>>>>>> origin/master
       },
     );
   }
 }
+<<<<<<< HEAD
 
 
 
 
 
 
+=======
+>>>>>>> origin/master

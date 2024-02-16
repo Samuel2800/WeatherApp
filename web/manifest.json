@@ -1,6 +1,11 @@
 {
+<<<<<<< HEAD
     "name": "weather_iffic",
     "short_name": "weather_iffic",
+=======
+    "name": "weather_app",
+    "short_name": "weather_app",
+>>>>>>> origin/master
     "start_url": ".",
     "display": "standalone",
     "background_color": "#0175C2",

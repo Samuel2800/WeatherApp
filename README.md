@@ -1,4 +1,8 @@
+<<<<<<< HEAD
 # weather_iffic
+=======
+# weather_app
+>>>>>>> origin/master
 
 A new Flutter project.
 
